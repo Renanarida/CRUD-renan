@@ -13,7 +13,6 @@ if (!$reuniao) {
 }
 
 echo "<h5>Participantes da reunião: " . htmlspecialchars($reuniao['assunto']) . "</h5>";
-echo '<a href="adicionar_participante.php?id=' . $id . '" class="btn btn-success btn-sm mb-2">Adicionar Participante</a>';
 
 if ($participantes->num_rows > 0) {
     echo "<ul class='list-group'>";

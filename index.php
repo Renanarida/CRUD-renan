@@ -51,6 +51,7 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
         <?php
         include_once'cadastrar_reuniao.php';
         include_once'editar_reuniao.php';
+        include_once'adicionar_participante.php';
         ?>
         <div class="container mt-4">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -75,7 +76,8 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
                                 Editar Reunião
                             </button>
 
-                            <a href="excluir_reuniao.php?id=<?= $row['id'] ?>"
+                            <a class="btn btn-danger btn-sm"
+                                href="excluir_reuniao.php?id=<?= $row['id'] ?>"
                                 onclick="return confirm('Excluir reunião?')" class="card-link text-danger">Excluir</a>
                             <button class="btn btn-sm btn-info" data-bs-toggle="modal"
                                 data-bs-target="#modalParticipantes" data-id="<?= $row['id'] ?>">
@@ -86,96 +88,9 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
                 </div>
                 <?php endwhile; ?>
             </div>
-            <!-- Modal Participantes -->
-            <div class="modal fade" id="modalParticipantes" tabindex="-1" aria-labelledby="modalParticipantesLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
 
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalParticipantesLabel">Participantes</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Fechar"></button>
-                        </div>
-
-                        <div class="modal-body" id="modalParticipantesBody">
-                            Carregando...
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <!-- Modal Adicionar Participante -->
-            <div class="modal fade" id="modalAddParticipante" tabindex="-1" aria-labelledby="modalAddParticipanteLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form id="formAddParticipante" method="post">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalAddParticipanteLabel">Adicionar Participante</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Fechar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <input type="hidden" name="id_reuniao" id="addParticipanteReuniaoId" value="">
-
-                                <div class="mb-3">
-                                    <label for="nome" class="form-label">Nome</label>
-                                    <input type="text" class="form-control" name="nome" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="telefone" class="form-label">Telefone</label>
-                                    <input type="number" class="form-control" name="telefone" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">E-mail</label>
-                                    <input type="email" class="form-control" name="email" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="setor" class="form-label">Setor</label>
-                                    <input type="text" class="form-control" name="setor" required>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">Adicionar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-        <script>
-        var modalParticipantes = document.getElementById('modalParticipantes');
-
-        modalParticipantes.addEventListener('show.bs.modal', function(event) {
-            var button = event.relatedTarget;
-            var id = button.getAttribute('data-id');
-
-            var modalBody = modalParticipantes.querySelector('#modalParticipantesBody');
-            modalBody.innerHTML = 'Carregando...';
-
-            fetch('carregar_participantes.php?id=' + id)
-                .then(response => response.text())
-                .then(html => {
-                    modalBody.innerHTML = html;
-                })
-                .catch(error => {
-                    modalBody.innerHTML = '<p class="text-danger">Erro ao carregar participantes.</p>';
-                });
-        });
-        </script>
 
         <script>
         // Quando abrir o modal de adicionar participante, preenche o ID
