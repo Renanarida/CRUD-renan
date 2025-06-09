@@ -15,12 +15,48 @@
     }
 ?>
 
-<h2>Cadastrar Reunião</h2>
-<form method="post">
-    Data: <input type="date" name="data" required><br>
-    Hora: <input type="time" name="hora" required><br>
-    Local: <input type="text" name="local"><br>
-    Assunto: <input type="text" name="assunto" required><br>
-    <input type="submit" value="Salvar">
+<!-- Modal de Cadastrar Reunião -->
+<div class="modal fade" id="modalAddReuniao" style="backdrop-filter: blur(5px);" tabindex="-1" aria-labelledby="modalAddReuniaoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formAddReuniao" method="POST" action="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAddReuniaoLabel">Cadastrar Reunião</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="dataReuniao" class="form-label">Data</label>
+                        <input type="date" class="form-control" name="data" id="dataReuniao" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="hora" class="form-label">Hora</label>
+                        <input type="time" class="form-control" name="hora" id="hora" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="local" class="form-label">Local</label>
+                        <input type="text" class="form-control" name="local" id="local">
+                    </div>
+                    <div class="mb-3">
+                        <label for="assunto" class="form-label">Assunto</label>
+                        <input type="text" class="form-control" name="assunto" id="assunto" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-</form>
+<script>
+  // Define data atual no campo de data
+  document.addEventListener("DOMContentLoaded", function () {
+    const dataInput = document.getElementById('dataReuniao');
+    if (dataInput) {
+      dataInput.value = new Date().toISOString().split('T')[0];
+    }
+  });
+</script>

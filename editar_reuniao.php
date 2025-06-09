@@ -1,6 +1,6 @@
 <?php
 include 'conexao.php';
-$id = $_GET['id'];
+$id = $_POST['id'] ?? $_GET['id'] ?? null;
 
 if ($_POST) {
     $data = $_POST['data'];
@@ -9,16 +9,79 @@ if ($_POST) {
     $assunto = $_POST['assunto'];
     $conn->query("UPDATE reunioes SET data='$data', hora='$hora', local='$local', assunto='$assunto' WHERE id=$id");
     header("Location: index.php");
+    exit;
 }
 
-$reuniao = $conn->query("SELECT * FROM reunioes WHERE id=$id")->fetch_assoc();
 ?>
 
-<h2>Editar Reunião</h2>
-<form method="post">
-    Data: <input type="date" name="data" value="<?= $reuniao['data'] ?>"><br>
-    Hora: <input type="time" name="hora" value="<?= $reuniao['hora'] ?>"><br>
-    Local: <input type="text" name="local" value="<?= $reuniao['local'] ?>"><br>
-    Assunto: <input type="text" name="assunto" value="<?= $reuniao['assunto'] ?>"><br>
-    <input type="submit" value="Atualizar">
-</form>
+<!-- Modal Editar Reunião -->
+<div class="modal fade" id="modalEditarReuniao" tabindex="-1" aria-labelledby="modalEditarReuniaoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form method="post" id="formEditarReuniao" action="">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarReuniaoLabel">Editar Reunião</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" name="id" id="editId" value="">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="data" class="form-label">Data</label>
+              <input type="date" class="form-control" name="data" id="editData" required
+                value="">
+            </div>
+            <div class="col-md-6">
+              <label for="hora" class="form-label">Hora</label>
+              <input type="time" class="form-control" name="hora" id="editHora" required
+                value="">
+            </div>
+            <div class="col-md-12">
+              <label for="local" class="form-label">Local</label>
+              <input type="text" class="form-control" name="local" id="editLocal"
+                value="">
+            </div>
+            <div class="col-md-12">
+              <label for="assunto" class="form-label">Assunto</label>
+              <input type="text" class="form-control" name="assunto" id="editAssunto" required
+                value="">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Atualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  var modalEditar = document.getElementById('modalEditarReuniao');
+
+  modalEditar.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget; // botão que acionou o modal
+    
+    // Pegando os dados do botão
+    var id = button.getAttribute('data-reuniao-id');
+    var data = button.getAttribute('data-reuniao-data');
+    var hora = button.getAttribute('data-reuniao-hora');
+    var local = button.getAttribute('data-reuniao-local');
+    var assunto = button.getAttribute('data-reuniao-assunto');
+    
+    // Atualizando os campos do modal
+    modalEditar.querySelector('#editId').value = id;
+    modalEditar.querySelector('#editData').value = data;
+    modalEditar.querySelector('#editHora').value = hora;
+    modalEditar.querySelector('#editLocal').value = local;
+    modalEditar.querySelector('#editAssunto').value = assunto;
+    
+    // Atualize a ação do form para enviar o id corretamente, se quiser:
+    modalEditar.querySelector('#formEditarReuniao').action = 'editar_reuniao.php?id=' + id;
+  });
+</script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

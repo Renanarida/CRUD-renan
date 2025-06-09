@@ -1,23 +1,31 @@
 <?php
+include 'conexao.php';
 
-    include 'conexao.php';
-    $id_reuniao = $_GET['id'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nome = $_POST['nome'];
+    $telefone = $_POST['telefone'];
+    $email = $_POST['email'];
+    $setor = $_POST['setor'];
+    $id_reuniao = $_POST['id_reuniao'];
 
-    if ($_POST) {
-        $nome = $_POST['nome'];
-        $email = $_POST['email'];
-        $conn->query("INSERT INTO participantes (nome, email, id_reuniao)
-                    VALUES ('$nome', '$email', $id_reuniao)");
-        header("Location: participantes.php?id=$id_reuniao");
+    $stmt = $conn->prepare("INSERT INTO participantes (nome, telefone, email, setor, id_reuniao) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssi", $nome, $telefone, $email, $setor, $id_reuniao);
+
+    if ($stmt->execute()) {
+        echo "Participante adicionado com sucesso!";
+    } else {
+        echo "Erro ao adicionar participante: " . $stmt->error;
     }
+
+    $stmt->close();
+}
 ?>
 
-
-<h2>Adicionar Participante</h2>
-<form method="post">
+<form method="POST">
+    <input type="hidden" name="id_reuniao" value="<?= $_GET['id'] ?>">
     Nome: <input type="text" name="nome" required><br>
-    Telefone: <input type="number" name="telefone" required><br>
-    E-mail: <<input type="email" name="email" required><br>
-    Setor: <input type="text" name="setor" required><br> 
-    <input type="submit" value="Adicionar">
+    Telefone: <input type="text" name="telefone" required><br>
+    E-mail: <input type="email" name="email" required><br>
+    Setor: <input type="text" name="setor" required><br>
+    <input type="submit" value="Adicionar Participante">
 </form>
