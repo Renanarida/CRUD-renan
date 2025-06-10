@@ -1,17 +1,17 @@
 <?php
-
-    //insere o conteudo em outro arquivo PHP
     include 'conexao.php';
 
-    if ($_POST) {
+    if ($_POST && isset($_POST['add-reuniao'])) {
         $data = $_POST['data'];
         $hora = $_POST['hora'];
         $local = $_POST['local'];
         $assunto = $_POST['assunto'];
 
-    $conn->query("INSERT INTO reunioes (data, hora, local, assunto)
-            VALUES ('$data', '$hora', '$local', '$assunto')");
-    header("Location: index.php");
+        $conn->query("INSERT INTO reunioes (data, hora, local, assunto)
+                VALUES ('$data', '$hora', '$local', '$assunto')");
+
+        header("Location: index.php");
+        exit;
     }
 ?>
 
@@ -20,6 +20,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="formAddReuniao" method="POST" action="">
+                <input type="hidden" name="add-reuniao" value="1"> <!-- Identificador do formulário -->
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalAddReuniaoLabel">Cadastrar Reunião</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>

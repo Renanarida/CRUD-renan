@@ -28,7 +28,8 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
         align-items: center width: 80vh;
         height: 100vh;
     }
-/* 
+
+    /* 
     .body-box {
         width: 100vh;
     } */
@@ -54,9 +55,12 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
         include_once'adicionar_participante.php';
         ?>
         <div class="container mt-4">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div class="mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar reuniões...">
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="cardsContainer">
                 <?php while ($row = $result->fetch_assoc()): ?>
-                <div class="col">
+                <div class="col card-item">
                     <div class="card h-100">
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($row['assunto']) ?></h5>
@@ -66,7 +70,6 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
                             <p class="card-text"><strong>Local:</strong> <?= htmlspecialchars($row['local']) ?></p>
                         </div>
                         <div class="card-footer bg-transparent border-top-0">
-                            <!-- Botão para abrir modal -->
                             <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                 data-bs-target="#modalEditarReuniao" data-reuniao-id="<?= $row['id'] ?>"
                                 data-reuniao-data="<?= htmlspecialchars($row['data']) ?>"
@@ -75,10 +78,8 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
                                 data-reuniao-assunto="<?= htmlspecialchars($row['assunto']) ?>">
                                 Editar Reunião
                             </button>
-
-                            <a class="btn btn-danger btn-sm"
-                                href="excluir_reuniao.php?id=<?= $row['id'] ?>"
-                                onclick="return confirm('Excluir reunião?')" class="card-link text-danger">Excluir</a>
+                            <a class="btn btn-danger btn-sm" href="excluir_reuniao.php?id=<?= $row['id'] ?>"
+                                onclick="return confirm('Excluir reunião?')">Excluir</a>
                             <button class="btn btn-sm btn-info" data-bs-toggle="modal"
                                 data-bs-target="#modalParticipantes" data-id="<?= $row['id'] ?>">
                                 Participantes
@@ -90,48 +91,70 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
             </div>
 
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+            const searchInput = document.getElementById('searchInput');
+            const cardsContainer = document.getElementById('cardsContainer');
+            const cards = cardsContainer.getElementsByClassName('card-item');
 
-        <script>
-        // Quando abrir o modal de adicionar participante, preenche o ID
-        var modalAddParticipante = document.getElementById('modalAddParticipante');
-        modalAddParticipante.addEventListener('show.bs.modal', function(event) {
-            var button = event.relatedTarget;
-            var idReuniao = button.getAttribute('data-reuniao-id');
-            modalAddParticipante.querySelector('#addParticipanteReuniaoId').value = idReuniao;
-        });
+            searchInput.addEventListener('input', function() {
+                const filter = this.value.toLowerCase();
 
-        // Enviar o formulário via AJAX
-        document.getElementById('formAddParticipante').addEventListener('submit', function(e) {
-            e.preventDefault();
+                for (let card of cards) {
+                    const assunto = card.querySelector('.card-title').textContent.toLowerCase();
+                    const local = card.querySelector('.card-text').textContent.toLowerCase();
+                    const dataHora = card.querySelector('.card-subtitle').textContent.toLowerCase();
 
-            var form = e.target;
-            var formData = new FormData(form);
-
-            fetch('adicionar_participante.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(resp => resp.text())
-                .then(result => {
-                    if (result.trim() === "ok") {
-                        // Fecha o modal
-                        var modal = bootstrap.Modal.getInstance(modalAddParticipante);
-                        modal.hide();
-
-                        // Atualiza a lista de participantes
-                        var id = formData.get('id_reuniao');
-                        fetch('carregar_participantes.php?id=' + id)
-                            .then(res => res.text())
-                            .then(html => {
-                                document.getElementById('modalParticipantesBody').innerHTML = html;
-                            });
+                    if (assunto.includes(filter) || local.includes(filter) || dataHora.includes(filter)) {
+                        card.style.display = '';
                     } else {
-                        alert("Erro ao adicionar participante.");
+                        card.style.display = 'none';
                     }
-                });
-        });
-        </script>
+                }
+            });
+            </script>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+            <script>
+            // Quando abrir o modal de adicionar participante, preenche o ID
+            var modalAddParticipante = document.getElementById('modalAddParticipante');
+            modalAddParticipante.addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var idReuniao = button.getAttribute('data-reuniao-id');
+                modalAddParticipante.querySelector('#addParticipanteReuniaoId').value = idReuniao;
+            });
+
+            // Enviar o formulário via AJAX
+            document.getElementById('formAddParticipante').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                var form = e.target;
+                var formData = new FormData(form);
+
+                fetch('adicionar_participante.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(resp => resp.text())
+                    .then(result => {
+                        if (result.trim() === "ok") {
+                            // Fecha o modal
+                            var modal = bootstrap.Modal.getInstance(modalAddParticipante);
+                            modal.hide();
+
+                            // Atualiza a lista de participantes
+                            var id = formData.get('id_reuniao');
+                            fetch('carregar_participantes.php?id=' + id)
+                                .then(res => res.text())
+                                .then(html => {
+                                    document.getElementById('modalParticipantesBody').innerHTML = html;
+                                });
+                        } else {
+                            alert("Erro ao adicionar participante.");
+                        }
+                    });
+            });
+            </script>
 
 </body>
 

@@ -1,26 +1,33 @@
 <?php
 include 'conexao.php';
 
+// print_r($_GET); die;// Para depuração, remova em produção
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post_participante'])) {
-    $nome = $_POST['nome'];
-    $telefone = $_POST['telefone'];
-    $email = $_POST['email'];
-    $setor = $_POST['setor'];
-    $id_reuniao = $_POST['id_reuniao'];
+    // Evita problemas com inputs vazios ou malformados
+    $nome = trim($_POST['nome']);
+    $telefone = trim($_POST['telefone']);
+    $email = trim($_POST['email']);
+    $setor = trim($_POST['setor']);
+    $id_reuniao = intval($_POST['id_reuniao']);
 
-    $stmt = $conn->prepare("INSERT INTO participantes (nome, telefone, email, setor, id_reuniao) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssi", $nome, $telefone, $email, $setor, $id_reuniao);
+    // Verificação simples
+    if ($nome && $telefone && $email && $setor && $id_reuniao > 0) {
+        $stmt = $conn->prepare("INSERT INTO participantes (nome, telefone, email, setor, id_reuniao) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssi", $nome, $telefone, $email, $setor, $id_reuniao);
 
-    if ($stmt->execute()) {
-        echo "Participante adicionado com sucesso!";
+        if ($stmt->execute()) {
+            echo "Participante adicionado com sucesso!";
+        } else {
+            echo "Erro ao adicionar participante: " . $stmt->error;
+        }
+
+        $stmt->close();
     } else {
-        echo "Erro ao adicionar participante: " . $stmt->error;
+        echo "Por favor, preencha todos os campos corretamente.";
     }
-
-    $stmt->close();
 }
 ?>
-
 <!-- Modal Participantes -->
 <div class="modal fade" id="modalParticipantes" tabindex="-1" aria-labelledby="modalParticipantesLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -33,7 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post_participante'])) 
 
             <div class="modal-body">
                 <!-- Formulário dentro do modal -->
-                <form name="post_participante" method="POST">   <------ajustar---------->
+                <form name="post_participante" method="POST">
+                    <!-- Campo oculto para armazenar o ID da reunião -->
+                    <input type="hidden" name="id_reuniao" id="id_reuniao">
 
                     <div class="row mb-3">
                         <div class="col-md-6">
@@ -60,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post_participante'])) 
                     </div>
 
                     <div class="text-end">
-                        <button type="submit" class="btn btn-primary">Adicionar Participante</button>
+                        <button type="submit" name="post_participante" class="btn btn-primary">Adicionar Participante</button>
                     </div>
                 </form>
 
@@ -86,6 +95,11 @@ var modalParticipantes = document.getElementById('modalParticipantes');
 modalParticipantes.addEventListener('show.bs.modal', function(event) {
     var button = event.relatedTarget;
     var id = button.getAttribute('data-id');
+
+    // Preenche o campo hidden com o id da reunião
+    modalParticipantes.querySelector('#id_reuniao').value = id;
+
+    // Carrega participantes via AJAX
     var modalBody = modalParticipantes.querySelector('#modalParticipantesBody');
     modalBody.innerHTML = 'Carregando...';
 
@@ -99,3 +113,4 @@ modalParticipantes.addEventListener('show.bs.modal', function(event) {
         });
 });
 </script>
+
