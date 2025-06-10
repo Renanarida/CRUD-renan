@@ -92,10 +92,12 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
 
 
             <script>
+                // cria consts com os elementos dos cards das reuniões 
             const searchInput = document.getElementById('searchInput');
             const cardsContainer = document.getElementById('cardsContainer');
             const cards = cardsContainer.getElementsByClassName('card-item');
 
+            // Adiciona o evento de input no campo de pesquisa
             searchInput.addEventListener('input', function() {
                 const filter = this.value.toLowerCase();
 

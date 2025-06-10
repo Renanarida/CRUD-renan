@@ -5,5 +5,5 @@
     $id_reuniao = $_GET['reuniao'];
 
     $conn->query("DELETE FROM participantes WHERE id=$id");
-    header("Location: participantes.php?id=$id_reuniao");
+    header("Location: index.php?id=$id_reuniao");
 ?>
