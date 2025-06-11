@@ -1,5 +1,5 @@
 <?php
-include 'conexao.php';
+include __DIR__ . '/../conexao.php';
 
 $id = $_GET['id'] ?? 0;
 $id = (int) $id;

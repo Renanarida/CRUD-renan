@@ -26,11 +26,15 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
         align-content: center;
         justify-content: center;
         align-items: center width: 80vh;
-        height: 100vh;
+        height: 90vh;
     }
 
-    /* 
-    .body-box {
+    .header-box {
+        background-color: rgb(11, 131, 179);
+    }
+
+    
+    /* .body-box {
         width: 100vh;
     } */
 
@@ -43,6 +47,18 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
 
 <body class="body-box">
 
+    <header class="header-box">
+        <nav id="nav-box" class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand ms-auto text-white" href="#">Logout</a>
+            </div>
+        </nav>
+    </header>
+
     <div class="box-reuniao">
         <h2>Reuniões</h2>
         <!-- Botão para abrir o modal -->
@@ -50,9 +66,9 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
             Cadastrar Reunião
         </button>
         <?php
-        include_once'cadastrar_reuniao.php';
-        include_once'editar_reuniao.php';
-        include_once'adicionar_participante.php';
+        include './add/cadastrar_reuniao.php';
+        include './private/editar_reuniao.php';
+        include './add/adicionar_participante.php';
         ?>
         <div class="container mt-4">
             <div class="mb-3">
@@ -70,7 +86,7 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
                             <p class="card-text"><strong>Local:</strong> <?= htmlspecialchars($row['local']) ?></p>
                         </div>
                         <div class="card-footer bg-transparent border-top-0">
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-warning btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#modalEditarReuniao" data-reuniao-id="<?= $row['id'] ?>"
                                 data-reuniao-data="<?= htmlspecialchars($row['data']) ?>"
                                 data-reuniao-hora="<?= htmlspecialchars($row['hora']) ?>"
@@ -78,9 +94,9 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
                                 data-reuniao-assunto="<?= htmlspecialchars($row['assunto']) ?>">
                                 Editar Reunião
                             </button>
-                            <a class="btn btn-danger btn-sm" href="excluir_reuniao.php?id=<?= $row['id'] ?>"
+                            <a class="btn btn-danger btn-primary" href="excluir_reuniao.php?id=<?= $row['id'] ?>"
                                 onclick="return confirm('Excluir reunião?')">Excluir</a>
-                            <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                            <button class="btn btn-primary btn-info" data-bs-toggle="modal"
                                 data-bs-target="#modalParticipantes" data-id="<?= $row['id'] ?>">
                                 Participantes
                             </button>
@@ -133,7 +149,7 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
                 var form = e.target;
                 var formData = new FormData(form);
 
-                fetch('adicionar_participante.php', {
+                fetch('./add/adicionar_participante.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -146,7 +162,7 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
 
                             // Atualiza a lista de participantes
                             var id = formData.get('id_reuniao');
-                            fetch('carregar_participantes.php?id=' + id)
+                            fetch('./private/carregar_participantes.php?id=' + id)
                                 .then(res => res.text())
                                 .then(html => {
                                     document.getElementById('modalParticipantesBody').innerHTML = html;
