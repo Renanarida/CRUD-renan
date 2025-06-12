@@ -89,4 +89,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post_participante'])) 
     </div>
 </div>
 
-<script src="adicionar_participante.js"></script>
+<script src="./src/js/adicionar_participante.js"></script>

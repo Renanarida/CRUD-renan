@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <script src="home.js"></script>
+    <script src="./src/js/home.js"></script>
     
 </body>
 </html>

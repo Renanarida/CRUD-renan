@@ -1,0 +1,27 @@
+.body-box {
+    background-color: rgb(5, 10, 163);
+    height: 100%;
+}
+
+.box-reuniao {
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 50px;
+        box-sizing: border-box;
+        }
+
+    .header-box {
+        background-color: rgb(11, 131, 179);
+    }
+
+    
+    /* .body-box {
+        width: 100vh;
+    } */
+
+    h2 {
+        color: white;
+    }

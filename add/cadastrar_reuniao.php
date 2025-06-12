@@ -52,4 +52,4 @@
     </div>
 </div>
 
-<script src="cadastrar_reuniao.js"></script>
+<script src="./src/js/cadastrar_reuniao.js"></script>

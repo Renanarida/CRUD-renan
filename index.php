@@ -13,34 +13,11 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="./src/style/index.css" />
     <title>Introdução</title>
 
     <style>
-    .box-reuniao {
-        background-color: rgb(5, 10, 163);
-        display: flex;
-        text-align: center;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        align-content: center;
-        justify-content: center;
-        align-items: center width: 80vh;
-        height: 90vh;
-    }
-
-    .header-box {
-        background-color: rgb(11, 131, 179);
-    }
-
     
-    /* .body-box {
-        width: 100vh;
-    } */
-
-    h2 {
-        color: white;
-    }
     </style>
 
 </head>
@@ -109,7 +86,7 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
             </div>
 
 
-            <script src="index.js"></script>
+            <script src="./src/js/index.js"></script>
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
