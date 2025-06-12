@@ -54,7 +54,7 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand ms-auto text-white" href="#">Logout</a>
+                <a class="navbar-brand ms-auto text-white" href="./add/login.php">Logout</a>
             </div>
         </nav>
     </header>
@@ -65,11 +65,13 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddReuniao">
             Cadastrar Reunião
         </button>
+
         <?php
         include './add/cadastrar_reuniao.php';
         include './private/editar_reuniao.php';
         include './add/adicionar_participante.php';
         ?>
+
         <div class="container mt-4">
             <div class="mb-3">
                 <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar reuniões...">
@@ -108,72 +110,10 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
 
 
             <script>
-                // cria consts com os elementos dos cards das reuniões 
-            const searchInput = document.getElementById('searchInput');
-            const cardsContainer = document.getElementById('cardsContainer');
-            const cards = cardsContainer.getElementsByClassName('card-item');
-
-            // Adiciona o evento de input no campo de pesquisa
-            searchInput.addEventListener('input', function() {
-                const filter = this.value.toLowerCase();
-
-                for (let card of cards) {
-                    const assunto = card.querySelector('.card-title').textContent.toLowerCase();
-                    const local = card.querySelector('.card-text').textContent.toLowerCase();
-                    const dataHora = card.querySelector('.card-subtitle').textContent.toLowerCase();
-
-                    if (assunto.includes(filter) || local.includes(filter) || dataHora.includes(filter)) {
-                        card.style.display = '';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                }
-            });
+               src="index.js"
             </script>
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-            <script>
-            // Quando abrir o modal de adicionar participante, preenche o ID
-            var modalAddParticipante = document.getElementById('modalAddParticipante');
-            modalAddParticipante.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var idReuniao = button.getAttribute('data-reuniao-id');
-                modalAddParticipante.querySelector('#addParticipanteReuniaoId').value = idReuniao;
-            });
-
-            // Enviar o formulário via AJAX
-            document.getElementById('formAddParticipante').addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                var form = e.target;
-                var formData = new FormData(form);
-
-                fetch('./add/adicionar_participante.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(resp => resp.text())
-                    .then(result => {
-                        if (result.trim() === "ok") {
-                            // Fecha o modal
-                            var modal = bootstrap.Modal.getInstance(modalAddParticipante);
-                            modal.hide();
-
-                            // Atualiza a lista de participantes
-                            var id = formData.get('id_reuniao');
-                            fetch('./private/carregar_participantes.php?id=' + id)
-                                .then(res => res.text())
-                                .then(html => {
-                                    document.getElementById('modalParticipantesBody').innerHTML = html;
-                                });
-                        } else {
-                            alert("Erro ao adicionar participante.");
-                        }
-                    });
-            });
-            </script>
-
 </body>
 
 </html>
