@@ -54,7 +54,7 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand ms-auto text-white" href="./add/login.php">Logout</a>
+                <a class="navbar-brand ms-auto text-white" href="logout.php">Logout</a>
             </div>
         </nav>
     </header>
@@ -109,9 +109,7 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
             </div>
 
 
-            <script>
-               src="index.js"
-            </script>
+            <script src="index.js"></script>
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

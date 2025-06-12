@@ -1,3 +1,4 @@
+               // Barra de pesquisa para filtrar reuniões
                //cria consts com os elementos dos cards das reuniões 
             const searchInput = document.getElementById('searchInput');
             const cardsContainer = document.getElementById('cardsContainer');
