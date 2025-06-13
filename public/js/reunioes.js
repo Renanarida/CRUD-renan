@@ -38,7 +38,7 @@
                 var form = e.target;
                 var formData = new FormData(form);
 
-                fetch('./add/adicionar_participante.php', {
+                fetch('./src/adicionar_participante.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -51,7 +51,8 @@
 
                             // Atualiza a lista de participantes
                             var id = formData.get('id_reuniao');
-                            fetch('./private/carregar_participantes.php?id=' + id)
+                            console.log("Reunião ID: " + id);
+                            fetch('./src/carregar_participantes.php?id=' + id)
                                 .then(res => res.text())
                                 .then(html => {
                                     document.getElementById('modalParticipantesBody').innerHTML = html;

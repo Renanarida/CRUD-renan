@@ -11,7 +11,7 @@ modalParticipantes.addEventListener('show.bs.modal', function(event) {
     var modalBody = modalParticipantes.querySelector('#modalParticipantesBody');
     modalBody.innerHTML = 'Carregando...';
 
-    fetch('./private/carregar_participantes.php?id=' + id)
+    fetch('./src/carregar_participantes.php?id=' + id)
         .then(response => response.text())
         .then(html => {
             modalBody.innerHTML = html;

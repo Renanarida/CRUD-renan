@@ -17,10 +17,6 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
     <link rel="stylesheet" href="./style/reunioes.css" />
     <title>Reuniões</title>
 
-    <style>
-    
-    </style>
-
 </head>
 
 <body class="body-box">
