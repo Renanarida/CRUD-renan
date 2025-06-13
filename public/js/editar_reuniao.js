@@ -18,4 +18,4 @@ var modalEditar = document.getElementById('modalEditarReuniao');
     modalEditar.querySelector('#editAssunto').value = assunto;
     
     // Atualize a ação do form para enviar o id corretamente, se quiser:
-    modalEditar.querySelector('#formEditarReuniao').action = './edit/edit_reuniao.php';  });
+    modalEditar.querySelector('#formEditarReuniao').action = './src/edit_reuniao.php';  });

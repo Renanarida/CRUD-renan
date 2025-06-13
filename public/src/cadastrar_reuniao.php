@@ -1,5 +1,5 @@
 <?php
-    include 'conexao.php';
+    require_once __DIR__ . '/../../config/conexao.php';
 
     if ($_POST && isset($_POST['add-reuniao'])) {
         $data = $_POST['data'];
@@ -10,7 +10,7 @@
         $conn->query("INSERT INTO reunioes (data, hora, local, assunto)
                 VALUES ('$data', '$hora', '$local', '$assunto')");
 
-        header("Location: index.php");
+        header("Location: ./reunioes.php");
         exit;
     }
 ?>
@@ -52,4 +52,4 @@
     </div>
 </div>
 
-<script src="./src/js/cadastrar_reuniao.js"></script>
+<script src="./js/cadastrar_reuniao.js"></script>

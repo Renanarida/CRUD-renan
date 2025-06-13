@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/../conexao.php';
+require_once __DIR__ . '/../../config/conexao.php';
 
 
 
@@ -12,7 +12,7 @@ if ($_POST && isset($_POST['edit-reuniao'])) {
 
     if ($id) {
         $conn->query("UPDATE reunioes SET data='$data', hora='$hora', local='$local', assunto='$assunto' WHERE id=$id"); 
-        header("Location: ./../index.php");
+        header("Location: /CRUD_renan/public/reunioes.php");
         exit;
     }
 }

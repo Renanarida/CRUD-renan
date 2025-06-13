@@ -1,6 +1,6 @@
 <?php
 
-    include 'conexao.php';
+    require_once __DIR__ . '/../../config/conexao.php';
     $id = $_GET['id'];
     $id_reuniao = $_GET['reuniao'];
 

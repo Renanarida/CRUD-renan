@@ -1,5 +1,5 @@
 <?php
-include 'conexao.php';
+require_once __DIR__ . '/../../config/conexao.php';
 
 // print_r($_GET); die;// Para depuração, remova em produção
 
@@ -89,4 +89,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post_participante'])) 
     </div>
 </div>
 
-<script src="./src/js/adicionar_participante.js"></script>
+<script src="./js/adicionar_participante.js"></script>
