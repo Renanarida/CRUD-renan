@@ -14,10 +14,10 @@
         $result = $stmt->get_result();
 
         if ($user = $result->fetch_assoc()) {
-            if (password_verify($senha, $user['senha'])) {
+            if ($senha === $user['senha']) {  /*Verifica se a senha é igual*/
                 $_SESSION['usuario_id'] = $user['id'];
                 $_SESSION['usuario_nome'] = $user['nome'];
-                header("location: ..index.php");
+                header("location: reunioes.php");
                 exit;
             } else {
                 $erro = "Senha incorreta.";
@@ -58,7 +58,7 @@
         </form>
 
         <div class="mt-3 text-center">
-            Ainda não tem conta? <a href="./src/cadastrar.php">Cadastre-se</a>
+            Ainda não tem conta? <a href="cadastrar.php">Cadastre-se</a>
         </div>
     </div>
 </body>

@@ -20,7 +20,7 @@ if ($participantes->num_rows > 0) {
     while ($p = $participantes->fetch_assoc()) {
         echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
         echo htmlspecialchars($p['nome']) . " (" . htmlspecialchars($p['email']) . ")";
-        echo '<a href="remover_participante.php?id=' . $p['id'] . '&reuniao=' . $id . '" class="btn btn-sm btn-danger" onclick="return confirm(\'Remover participante?\')">Remover</a>';
+        echo '<a href="src/remover_participante.php?id=' . $p['id'] . '&reuniao=' . $id . '" class="btn btn-sm btn-danger" onclick="return confirm(\'Remover participante?\')">Remover</a>';
         echo "</li>";
     }
     echo "</ul>";
