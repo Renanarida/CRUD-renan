@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post_participante'])) 
         $stmt->bind_param("ssssi", $nome, $telefone, $email, $setor, $id_reuniao);
 
         if ($stmt->execute()) {
-            echo "Participante adicionado com sucesso!";
+            echo '<p style="color: white;">Participante adicionado com sucesso!</p>';
         } else {
             echo "Erro ao adicionar participante: " . $stmt->error;
         }
@@ -89,4 +89,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post_participante'])) 
     </div>
 </div>
 
+
+<div class="modal fade" id="modalEditarParticipante" tabindex="-1" aria-labelledby="modalEditarParticipanteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarParticipanteLabel">Editar Participante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <form action="./src/editar_participante.php" method="POST">
+                <div class="modal-body">
+                    <!-- Campo oculto com ID do participante -->
+                    <input type="hidden" name="id_participante" id="editar_id_participante">
+
+                    <div class="mb-3">
+                        <label for="editar_nome" class="form-label">Nome</label>
+                        <input type="text" class="form-control" name="nome" id="editar_nome" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editar_email" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" id="editar_email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editar_telefone" class="form-label">Telefone</label>
+                        <input type="text" class="form-control" name="telefone" id="editar_telefone" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editar_setor" class="form-label">Setor</label>
+                        <input type="text" class="form-control" name="setor" id="editar_setor" required>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Salvar Alterações</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
 <script src="./js/adicionar_participante.js"></script>
+<script src="./js/editar_participante.js"></script>

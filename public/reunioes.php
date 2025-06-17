@@ -3,6 +3,15 @@ require_once __DIR__ . '/../config/conexao.php';
 
 $hoje = date('Y-m-d');
 $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
+
+
+session_start(); // precisa estar no topo de todos os arquivos que usam sessão
+
+// Verificação básica de login (opcional)
+if (!isset($_SESSION['usuario_nome'])) {
+    header("Location: login.php"); // ou a página inicial
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -21,17 +30,18 @@ $result = $conn->query("SELECT * FROM reunioes ORDER BY data, hora");
 
 <body class="body-box">
 
-    <header class="header-box">
-        <nav id="nav-box" class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a class="navbar-brand ms-auto text-white" href="./src/logout.php">Logout</a>
-            </div>
-        </nav>
-    </header>
+    
+<header class="header-box">
+    <nav id="nav-box" class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <span id="saudacoes" class="navbar-text me-auto">
+                Olá, <strong id="nome-usuario"><?= htmlspecialchars($_SESSION['usuario_nome']) ?></strong>
+            </span>
+
+            <a id="box-botao" class="navbar-brand ms-auto" href="./src/logout.php">Logout</a>
+        </div>
+    </nav>
+</header>
 
     <div class="box-reuniao">
         <h2>Reuniões</h2>

@@ -3,6 +3,26 @@
     height: 100%;
 }
 
+#nome-usuario {
+    color: #000000;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+#nome-usuario:hover {
+    color: white;        /* <- muda só a cor do texto */
+    text-decoration: none; /* <- mantém sem sublinhado */
+    background: none;      /* <- garante que não terá fundo no hover */
+    cursor: pointer;      /* <- muda o cursor para indicar que é clicável */
+    transition: color 0.3s ease; 
+}
+
+#saudacoes {
+    color: white;
+    font-weight: bold;
+    font-size: 1.0em;
+}
+
 .box-reuniao {
 
         display: flex;
@@ -22,6 +42,15 @@
         width: 100vh;
     } */
 
-    h2 {
-        color: white;
-    }
+#box-botao:hover {
+    color: #000000;        /* <- muda só a cor do texto */
+    text-decoration: none; /* <- mantém sem sublinhado */
+    background: none;      /* <- garante que não terá fundo no hover */
+}
+
+
+h2 {
+    color: white;
+}
+
+/* isso é uma alteração de teste */
